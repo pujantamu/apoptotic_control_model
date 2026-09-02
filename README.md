@@ -72,4 +72,11 @@ Figures S1-S8 are in [`figures/supplementary`](figures/supplementary).
 
 ## License
 
-A license has not yet been selected.
+The source code and notebooks in this repository are available under the
+[MIT License](LICENSE).
+
+The files in the `figures/` directory are available under the
+[Creative Commons Attribution 4.0 International License](FIGURE_LICENSE.md).
+
+If you use this code or the accompanying figures, please cite the associated
+paper.
