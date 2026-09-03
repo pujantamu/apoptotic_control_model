@@ -36,8 +36,18 @@ def plot(data):
     for row, runs in enumerate((linear, quadratic)):
         for beta, run in runs:
             states = np.arange(run["model"].N + 1)
-            axes[row, 0].plot(states, run["policy_plot"], label=rf"$\beta={beta:g}$")
-            axes[row, 1].plot(states, run["drift_plot"], label=rf"$\beta={beta:g}$")
+            axes[row, 0].plot(
+                states, run["policy_plot"], linewidth=2, label=rf"$\beta={beta:g}$"
+            )
+            axes[row, 1].plot(
+                states, run["drift_plot"], linewidth=2, label=rf"$\beta={beta:g}$"
+            )
+        axes[row, 0].axhline(
+            runs[0][1]["model"].a_init,
+            color="black",
+            linestyle="--",
+            label=r"Baseline $a^*$",
+        )
 
     titles = (
         "Constrained model: policy comparison",
@@ -46,18 +56,23 @@ def plot(data):
         "Constrained quadratic: drift comparison",
     )
     ylabels = (
-        r"$\mathrm{E}[\pi^*\mid i]$",
-        r"$(\lambda-\mu)/i$",
-        r"$\mathrm{E}[\pi^*\mid i]$",
-        r"$(\lambda-\mu)/i$",
+        r"Expected optimal action $\mathbb{E}[\pi\mid i]$",
+        r"Per-capita drift $(\lambda-\mu)/i$",
+        r"Expected optimal action $\mathbb{E}[\pi\mid i]$",
+        r"Per-capita drift $(\lambda-\mu)/i$",
     )
     for label, ax, title, ylabel in zip("ABCD", axes.flat, titles, ylabels):
         ax.set(title=title, xlabel="Population state $i$", ylabel=ylabel, xlim=(1, 100))
         ax.grid(alpha=0.25)
         ax.legend()
         panel_label(ax, f"{label}.")
+        ax.title.set_fontweight("bold")
     axes[0, 1].axhline(0, color="black", linestyle="--", linewidth=0.8)
     axes[1, 1].axhline(0, color="black", linestyle="--", linewidth=0.8)
+    axes[0, 0].set_ylim(0.38, 1.02)
+    axes[0, 1].set_ylim(-0.05, 0.30)
+    axes[1, 0].set_ylim(-0.02, 1.02)
+    axes[1, 1].set_ylim(-0.30, 0.40)
     fig.tight_layout()
     return fig
 

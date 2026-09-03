@@ -52,7 +52,7 @@ FIGURE_2_THRESHOLD = {
     "L": 50,
     "kappa1": 1.0,
     "kappa2": 5.0,
-    "n_actions": 101,
+    "n_actions": 201,
 }
 
 FIGURE_2_QUADRATIC = {
@@ -69,12 +69,14 @@ FIGURE_2_QUADRATIC = {
 FIGURE_3 = {
     "N": 10000,
     "r": 0.30,
-    "delta": 0.20,
-    "delta0": 0.0,
+    "delta": 0.15,
+    "delta0": 0.05,
     "alpha": 0.51,
     "penalty": 1e4,
     "n_actions": 201,
 }
+
+FIGURE_3_MAX_ITER = 3500
 
 FIGURE_3_REGIMES = (
     (50.0, 0.5, r"strong regularization: $\kappa=50,\ c_3=.5$"),
@@ -122,7 +124,7 @@ FIGURE_S2 = FIGURE_2_QUADRATIC.copy()
 
 FIGURE_S4 = {
     **COMMON,
-    "N": 500,
+    "N": 800,
     "alpha": 0.51,
     "kappa": 1.0,
     "c3": 1.0,
@@ -144,5 +146,68 @@ FIGURE_S8_QUADRATIC = {
     "initial_state": 10,
 }
 
-FIGURE_S8_CONSTRAINED = FIGURE_S8_QUADRATIC.copy()
+FIGURE_S8_CONSTRAINED = {**FIGURE_S8_QUADRATIC, "initial_state": 1}
 FIGURE_S8_BETA = 1.2
+
+
+FIGURE_S7 = {
+    "threshold": {
+        "N": 500,
+        "r": 0.20,
+        "delta": 0.25,
+        "delta0": 0.05,
+        "alpha": 0.51,
+        "penalty": 1e4,
+        "L": 35,
+        "kappa1": 1.0,
+        "kappa2": 0.5,
+    },
+    "quadratic": {
+        "N": 500,
+        "r": 0.20,
+        "delta": 0.25,
+        "delta0": 0.05,
+        "alpha": 0.51,
+        "penalty": 1e4,
+        "c1": 0.005,
+        "c2": 0.02,
+        "kappa": 1.2,
+        "c3": 1.0,
+    },
+    "unbounded": {
+        "N": 800,
+        "r": 0.20,
+        "delta": 0.25,
+        "delta0": 0.05,
+        "alpha": 0.51,
+        "penalty": 1e4,
+        "kappa": 1.0,
+        "c3": 0.8,
+    },
+    "constrained": {
+        "N": 400,
+        "r": 0.20,
+        "delta": 0.25,
+        "delta0": 0.05,
+        "alpha": 0.51,
+        "penalty": 1e4,
+        "kappa": 1.2,
+        "c3": 1.0,
+        "initial_state": 10,
+        "beta": 0.35,
+    },
+    "constrained_quadratic": {
+        "N": 400,
+        "r": 0.20,
+        "delta": 0.25,
+        "delta0": 0.05,
+        "alpha": 0.51,
+        "penalty": 1e4,
+        "kappa": 1.3,
+        "c1": 0.01,
+        "c2": 0.0,
+        "c3": 0.75,
+        "initial_state": 10,
+        "beta": 0.37,
+    },
+}

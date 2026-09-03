@@ -36,10 +36,11 @@ def plot(data):
     )
     fig.colorbar(image, ax=ax, label="Maximum population reached")
     ax.set(
-        title=r"Growth/suppression phase map: $c_1$ versus $c_3$",
+        title=r"Growth/suppression phase map: $c_1$ vs $c_3$",
         xlabel=r"$c_3$ growth reward",
         ylabel=r"$c_1$ quadratic penalty",
     )
+    ax.title.set_fontweight("bold")
     fig.tight_layout()
     return fig
 

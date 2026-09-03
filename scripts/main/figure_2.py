@@ -31,36 +31,58 @@ def plot(data):
     states = np.arange(1, 101)
 
     panels = (
-        (threshold[0][:, 1:101], kappa2, "viridis", None, None),
+        (
+            threshold[0][:, 1:101],
+            kappa2,
+            "viridis",
+            None,
+            None,
+            r"Optimal action $\pi^*(i)$",
+        ),
         (
             threshold[1][:, 1:101],
             kappa2,
             "RdBu_r",
             *symmetric_limits(threshold[1][:, 1:101]),
+            r"Per-capita drift $(\lambda-\mu)/i$",
         ),
-        (quadratic[0][:, 1:101], c1, "viridis", None, None),
+        (
+            quadratic[0][:, 1:101],
+            c1,
+            "viridis",
+            None,
+            None,
+            r"Optimal action $\pi^*(i)$",
+        ),
         (
             quadratic[1][:, 1:101],
             c1,
             "RdBu_r",
             *symmetric_limits(quadratic[1][:, 1:101]),
+            r"Per-capita drift $(\lambda-\mu)/i$",
         ),
     )
     titles = (
-        "Threshold model: optimal policy",
-        "Threshold model: normalized drift",
-        "Quadratic cost model: optimal policy",
-        "Quadratic cost model: normalized drift",
+        "Threshold Model: Optimal Policy",
+        "Threshold Model: Normalized Drift",
+        "Quadratic Cost Model: Optimal Policy",
+        "Quadratic Cost Model: Normalized Drift",
     )
-    ylabels = (r"$\kappa_2$", r"$\kappa_2$", r"$c_1$", r"$c_1$")
+    ylabels = (
+        r"Threshold Penalty $\kappa_2$",
+        r"Threshold Penalty $\kappa_2$",
+        r"$c_1$",
+        r"$c_1$",
+    )
 
     for label, ax, panel, title, ylabel in zip(
         "ABCD", axes.flat, panels, titles, ylabels
     ):
-        values, parameter, cmap, vmin, vmax = panel
+        values, parameter, cmap, vmin, vmax, colorbar_label = panel
         image = heatmap(ax, values, states, parameter, cmap=cmap, vmin=vmin, vmax=vmax)
-        fig.colorbar(image, ax=ax)
+        fig.colorbar(image, ax=ax, label=colorbar_label)
         ax.set(title=title, xlabel="Population state $i$", ylabel=ylabel)
+        ax.title.set_fontweight("bold")
         panel_label(ax, f"{label}.")
 
     fig.tight_layout()

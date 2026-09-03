@@ -40,13 +40,25 @@ def first_zero_crossing(states, drift):
     y = drift[valid]
     if len(y) < 2:
         return np.nan
-    crossings = np.where(y[:-1] * y[1:] <= 0)[0]
-    if len(crossings) == 0:
-        return np.nan
-    j = crossings[0]
-    if y[j + 1] == y[j]:
-        return float(x[j])
-    return float(x[j] - y[j] * (x[j + 1] - x[j]) / (y[j + 1] - y[j]))
+    for j in range(len(y) - 1):
+        if y[j] == 0:
+            return float(x[j])
+        if y[j] * y[j + 1] < 0:
+            return 0.5 * float(x[j] + x[j + 1])
+    return np.nan
+
+
+def first_contiguous_block(mask, start=1):
+    mask = np.asarray(mask, dtype=bool)
+    block = np.zeros_like(mask)
+    started = False
+    for i in range(start, len(mask)):
+        if mask[i]:
+            started = True
+            block[i] = True
+        elif started:
+            break
+    return block
 
 
 def near_zero_width(drift, eps=0.02, start=1, stop=None):

@@ -38,19 +38,48 @@ def plot(data):
     fig, axes = plt.subplots(2, 2, figsize=(11, 7))
     states = np.arange(1, 201)
     panels = (
-        (kappa_data[0], kappa, "viridis", r"$\kappa_1$", "Policy"),
-        (kappa_data[1], kappa, "RdBu_r", r"$\kappa_1$", "Drift"),
-        (c3_data[0], c3, "viridis", r"$c_3$", "Policy"),
-        (c3_data[1], c3, "RdBu_r", r"$c_3$", "Drift"),
+        (
+            kappa_data[0],
+            kappa,
+            "viridis",
+            r"$\kappa$",
+            r"Policy sweep over deviation penalty $\kappa$",
+            r"Optimal action $a^*(i)$",
+        ),
+        (
+            kappa_data[1],
+            kappa,
+            "RdBu_r",
+            r"$\kappa$",
+            r"Drift sweep over deviation penalty $\kappa$",
+            r"Per-capita drift $(\lambda-\mu)/i$",
+        ),
+        (
+            c3_data[0],
+            c3,
+            "viridis",
+            r"$c_3$",
+            r"Policy sweep over linear growth reward $c_3$",
+            r"Optimal action $a^*(i)$",
+        ),
+        (
+            c3_data[1],
+            c3,
+            "RdBu_r",
+            r"$c_3$",
+            r"Drift sweep over linear growth reward $c_3$",
+            r"Per-capita drift $(\lambda-\mu)/i$",
+        ),
     )
     for label, ax, panel in zip("ABCD", axes.flat, panels):
-        values, parameters, cmap, ylabel, title = panel
+        values, parameters, cmap, ylabel, title, colorbar_label = panel
         limits = symmetric_limits(values) if cmap == "RdBu_r" else (None, None)
         image = heatmap(
             ax, values, states, parameters, cmap=cmap, vmin=limits[0], vmax=limits[1]
         )
-        fig.colorbar(image, ax=ax)
+        fig.colorbar(image, ax=ax, label=colorbar_label)
         ax.set(title=title, xlabel="Population state $i$", ylabel=ylabel)
+        ax.title.set_fontweight("bold")
         panel_label(ax, f"{label}.")
     fig.tight_layout()
     return fig

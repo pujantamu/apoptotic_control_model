@@ -39,35 +39,52 @@ def plot():
 
     for value in (25.0, 50.0, 125.0):
         _, _, policy = solve(L=value)
-        line = axes[2, 1].plot(states, policy[states], label=rf"$L={value:g}$")[0]
+        line = axes[2, 1].plot(
+            states,
+            policy[states],
+            label=rf"$L={value:g}$ ($N={FIGURE_S1['N']}$)",
+        )[0]
         axes[2, 1].axvline(value, color=line.get_color(), linestyle=":", alpha=0.7)
 
     titles = (
         r"Policy slices across $\kappa_2$",
         r"Drift slices across $\kappa_2$",
-        r"Cost ratio: $\kappa_1$ versus $\kappa_2$",
-        "Temporal horizon",
-        "Growth- and decay-biased regimes",
-        "Threshold position",
+        r"Cost Ratio Regime: $\kappa_1$ vs $\kappa_2$",
+        "Temporal Horizon Regime: Myopic vs Long-Horizon",
+        "Drift Regime: Growth vs Decay Biased",
+        "Capacity Regime: Threshold Position",
     )
     ylabels = (
         r"$\pi^*(i)$",
-        r"$(\lambda-\mu)/i$",
+        r"Normalized net drift $(\lambda-\mu)/i$",
         r"$\pi^*(i)$",
         r"$\pi^*(i)$",
         r"$\pi^*(i)$",
         r"$\pi^*(i)$",
     )
+    axes[0, 0].axhline(
+        a_star, color="black", linestyle="--", linewidth=0.8, label=r"Baseline $a^*$"
+    )
+    axes[1, 0].axhline(
+        a_star, color="black", linestyle="--", linewidth=0.8, label=r"Baseline $a^*$"
+    )
+    for ax in axes.flat[:5]:
+        ax.axvline(
+            FIGURE_S1["L"],
+            color="0.6",
+            linestyle=":",
+            linewidth=0.8,
+            label=r"$L$ threshold",
+        )
+    axes[0, 1].axhline(0, color="black", linestyle="--", linewidth=0.8)
+
     for label, ax, title, ylabel in zip("ABCDEF", axes.flat, titles, ylabels):
         ax.set(title=title, xlabel="State $i$", ylabel=ylabel, xlim=(1, 200))
         ax.grid(alpha=0.25)
         ax.legend()
         panel_label(ax, f"{label}.")
-    for ax in (axes[0, 0], axes[1, 0]):
-        ax.axhline(a_star, color="black", linestyle="--", linewidth=0.8)
-    for ax in axes.flat[:5]:
-        ax.axvline(FIGURE_S1["L"], color="0.6", linestyle=":", linewidth=0.8)
-    axes[0, 1].axhline(0, color="black", linestyle="--", linewidth=0.8)
+        ax.title.set_fontweight("bold")
+    axes[2, 1].set_ylim(0.25, 1.02)
     fig.tight_layout()
     return fig
 

@@ -1,7 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from apoptotic_control.analysis import first_zero_crossing, per_capita_drift
+from apoptotic_control.analysis import (
+    first_contiguous_block,
+    first_zero_crossing,
+    per_capita_drift,
+)
 from apoptotic_control.parameters import (
     FIGURE_S8_BETA,
     FIGURE_S8_CONSTRAINED,
@@ -31,7 +35,9 @@ def compute(quick=False):
     drift = per_capita_drift(model, policy)
 
     constrained = solve_constrained_quadratic(constrained_params, FIGURE_S8_BETA)
-    constrained_drift = constrained["drift_plot"]
+    support = first_contiguous_block(constrained["support"])
+    constrained_drift = np.asarray(constrained["drift"], dtype=float).copy()
+    constrained_drift[~support] = np.nan
     return (
         states,
         ("Quadratic", drift, logistic_fit(states, drift)),
@@ -46,24 +52,27 @@ def compute(quick=False):
 def plot(data):
     states, *curves = data
     use_paper_style()
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(9.2, 5.2))
     for label, drift, (rho, capacity, reference) in curves:
         mask = (states >= 1) & (states <= 100) & np.isfinite(drift)
-        line = ax.plot(states[mask], drift[mask], label=label)[0]
+        ax.plot(states[mask], drift[mask], linewidth=3, label=label)
         ax.plot(
             states[mask],
             reference[mask],
             "--",
-            color=line.get_color(),
-            label=rf"Logistic fit: $\rho={rho:.3g}$, $K={capacity:.1f}$",
+            linewidth=2.3,
+            label=rf"Logistic ref. for {label}: $\rho={rho:.3g}$, $K={capacity:.1f}$",
         )
-    ax.axhline(0, color="black", linestyle="--", linewidth=0.8)
+        if np.isfinite(capacity) and 1 <= capacity <= 100:
+            ax.axvline(capacity, linestyle=":", linewidth=1.6)
+    ax.axhline(0, color="black", linestyle="--", linewidth=1.6)
     ax.set(
         title="Logistic-like comparison of induced drift",
         xlabel="Population state $i$",
         ylabel=r"Per-capita drift $g(i)$",
         xlim=(1, 100),
     )
+    ax.title.set_fontweight("bold")
     ax.grid(alpha=0.25)
     ax.legend()
     fig.tight_layout()

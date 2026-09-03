@@ -10,7 +10,7 @@ def finish(fig, output):
     if root := os.environ.get("APOPTOTIC_OUTPUT_ROOT"):
         output = Path(root) / output
     output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output, dpi=300, bbox_inches="tight")
+    fig.savefig(output, dpi=300, bbox_inches="tight", pad_inches=0.15)
     return output
 
 

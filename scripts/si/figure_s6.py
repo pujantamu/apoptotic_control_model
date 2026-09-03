@@ -31,14 +31,23 @@ def plot(data):
     fig, axes = plt.subplots(1, 2, figsize=(11, 4))
     states = np.arange(1, 101)
     image = heatmap(axes[0], policies, states, beta)
-    fig.colorbar(image, ax=axes[0], label=r"$\mathrm{E}[\pi^*\mid i]$")
+    fig.colorbar(image, ax=axes[0], label=r"Expected action $\mathrm{E}[a\mid i]$")
     limits = symmetric_limits(drifts)
     image = heatmap(
         axes[1], drifts, states, beta, cmap="RdBu_r", vmin=limits[0], vmax=limits[1]
     )
-    fig.colorbar(image, ax=axes[1], label=r"$(\lambda-\mu)/i$")
-    for label, ax, title in zip("AB", axes, ("Policy", "Normalized drift")):
-        ax.set(title=title, xlabel="Population state $i$", ylabel=r"Budget $\beta$")
+    fig.colorbar(image, ax=axes[1], label=r"Per-capita drift $(\lambda-\mu)/i$")
+    titles = (
+        r"Constrained Quadratic: policy sweep over $\beta$",
+        r"Constrained Quadratic: drift sweep over $\beta$",
+    )
+    for label, ax, title in zip("AB", axes, titles):
+        ax.set(
+            title=title,
+            xlabel="Population state $i$",
+            ylabel=r"Constraint budget $\beta$",
+        )
+        ax.title.set_fontweight("bold")
         panel_label(ax, f"{label}.")
     fig.tight_layout()
     return fig

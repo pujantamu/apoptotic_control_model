@@ -1,6 +1,6 @@
 # Apoptotic control figures
 
-Code for the main-text and supplementary figures in *How cost structure shapes population-level tumor growth regulation: an optimal control perspective*.
+Code for the main-text and supplementary figures in *Apoptotic Control*.
 
 ## Setup
 
@@ -69,14 +69,10 @@ Figures S1-S8 are in [`figures/supplementary`](figures/supplementary).
 - Constrained policies are shown only at states with non-negligible discounted
   occupancy.
 - The extinction-state penalty is `P_ext = 10^4`.
+- Figure 3 uses the 3,500 value-iteration updates used for the displayed panel.
+- The constrained curve in Figure S8 starts from `i0 = 1`, as in the displayed
+  panel.
 
 ## License
 
-The source code and notebooks in this repository are available under the
-[MIT License](LICENSE).
-
-The files in the `figures/` directory are available under the
-[Creative Commons Attribution 4.0 International License](FIGURE_LICENSE.md).
-
-If you use this code or the accompanying figures, please cite the associated
-paper.
+A license has not yet been selected.
