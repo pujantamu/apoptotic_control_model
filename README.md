@@ -46,11 +46,7 @@ parameter values used in the paper are collected in
 - `analysis.py`: drift, occupancy support, and related calculations
 - `simulation.py`: Gillespie simulations
 - `plotting.py`: plotting functions shared across figures
-
-The original working analysis is kept in
-[`notebooks/original_analysis.ipynb`](notebooks/original_analysis.ipynb). The
-numbered scripts above are the reproduction code for the paper.
-
+  
 ## Main figures
 
 ![Figure 1](figures/main/Figure_1.png)
