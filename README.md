@@ -1,6 +1,6 @@
 # Apoptotic control figures
 
-Code for the main-text and supplementary figures in *Apoptotic Control*.
+Code for the main-text and supplementary figures in *How optimal control of cellular cost shapes population-level tumor growth dynamics*.
 
 ## Setup
 
