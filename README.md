@@ -83,5 +83,3 @@ The files in the `figures/` directory are available under the
 
 If you use this code or the accompanying figures, please cite the associated
 paper.
-
-A license has not yet been selected.
